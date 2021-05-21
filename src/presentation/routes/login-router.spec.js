@@ -1,4 +1,6 @@
-const { LoginRouter, MissingParamError, InternalServerError } = require('./login-router')
+const { LoginRouter } = require('./login-router')
+const { MissingParamError } = require('../helpers/missing-param-error')
+const { InternalServerError } = require('../helpers/internal-server-error')
 
 describe('Login Router', () => {
   const sut = new LoginRouter()
