@@ -6,11 +6,8 @@ class LoginRouter {
   }
 
   route (httpRequest) {
-    if (!httpRequest) {
-      return HttpResponse.severError('http request')
-    }
-    if (!httpRequest.body) {
-      return HttpResponse.severError('body')
+    if (!httpRequest || !httpRequest.body || !this.authUseCase || !this.authUseCase.auth) {
+      return HttpResponse.severError()
     }
     const { email, password } = httpRequest.body
     if (!email) {
