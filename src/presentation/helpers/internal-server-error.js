@@ -1,6 +1,6 @@
 class InternalServerError extends Error {
-  constructor (response) {
-    super(`Missing ${response}`)
+  constructor () {
+    super('Internal Server Error')
   }
 }
 
