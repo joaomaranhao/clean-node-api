@@ -1,4 +1,4 @@
-const { LoginRouter } = require('./login-router')
+const { LoginRouter, MissingParamError, InternalServerError } = require('./login-router')
 
 describe('Login Router', () => {
   const sut = new LoginRouter()
@@ -10,6 +10,7 @@ describe('Login Router', () => {
     }
     const httpResponse = sut.route(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body).toEqual(new MissingParamError('email'))
   })
 
   test('should return 400 if no password is provided', () => {
@@ -20,16 +21,19 @@ describe('Login Router', () => {
     }
     const httpResponse = sut.route(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body).toEqual(new MissingParamError('password'))
   })
 
   test('should return 500 if no httpRequest is provided', () => {
     const httpResponse = sut.route()
     expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body).toEqual(new InternalServerError('http request'))
   })
 
   test('should return 500 if httpRequest has no body', () => {
     const httpRequest = {}
     const httpResponse = sut.route(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body).toEqual(new InternalServerError('body'))
   })
 })
