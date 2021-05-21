@@ -5,6 +5,9 @@
   "repository": "git@github.com:joaomaranhao/clean-node-api.git",
   "author": "Joao Maranhao <joaofelipemaranhao@gmail.com>",
   "license": "MIT",
+  "standard": {
+    "env": ["jest"]
+  },
   "devDependencies": {
     "husky": "^6.0.0",
     "jest": "^26.6.3",
