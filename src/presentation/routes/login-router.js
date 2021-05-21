@@ -1,18 +1,51 @@
 class LoginRouter {
   route (httpRequest) {
-    const httpResponse = {}
-    if (!httpRequest || !httpRequest.body) {
-      httpResponse.statusCode = 500
-      return httpResponse
+    if (!httpRequest) {
+      return HttpResponse.severError('http request')
+    }
+    if (!httpRequest.body) {
+      return HttpResponse.severError('body')
     }
     const { email, password } = httpRequest.body
-    if (!email || !password) {
-      httpResponse.statusCode = 400
+    if (!email) {
+      return HttpResponse.badRequest('email')
     }
-    return httpResponse
+    if (!password) {
+      return HttpResponse.badRequest('password')
+    }
+  }
+}
+
+class HttpResponse {
+  static badRequest (param) {
+    return {
+      statusCode: 400,
+      body: new MissingParamError(param)
+    }
+  }
+
+  static severError (response) {
+    return {
+      statusCode: 500,
+      body: new InternalServerError(response)
+    }
+  }
+}
+
+class MissingParamError extends Error {
+  constructor (paramName) {
+    super(`Missing param ${paramName}`)
+  }
+}
+
+class InternalServerError extends Error {
+  constructor (response) {
+    super(`Missing ${response}`)
   }
 }
 
 module.exports = {
-  LoginRouter
+  LoginRouter,
+  MissingParamError,
+  InternalServerError
 }
